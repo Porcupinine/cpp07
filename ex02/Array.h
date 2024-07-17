@@ -14,6 +14,9 @@
 #define CPP07_ARRAY_H
 
 template <typename T> class Array {
+	Array();
+	Array(unsigned int n);
+	
 //	• Construction with no parameter: Creates an empty array.
 //	• Construction with an unsigned int n as a parameter: Creates an array of n elements
 //	initialized by default.
