@@ -21,6 +21,11 @@ void replace(char& c) {
 	c = 'x';
 }
 
+template <typename T>
+void print(const T& value) {
+	std::cout<<value<<"\n";
+}
+
 int main () {
 	{
 		int arr[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -45,5 +50,23 @@ int main () {
 		for (char y: arr) {
 			std::cout << y << ", ";
 		}
+	}
+	{
+		const int arr[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+		std::cout << "const print int\n";
+		for (int y: arr) {
+			std::cout << y << ", ";
+		}
+		std::cout<<"\n";
+		inter(arr, 10, print);
+	}
+	{
+		const char arr[10] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'};
+		std::cout << "const print char\n";
+		for (char y: arr) {
+			std::cout << y << ", ";
+		}
+		std::cout<<"\n";
+		inter(arr, 10, print);
 	}
 }

@@ -13,23 +13,64 @@
 #ifndef CPP07_ARRAY_H
 #define CPP07_ARRAY_H
 
+#include <stdexcept>
+
 template <typename T> class Array {
+public:
 	Array();
 	Array(unsigned int n);
-	
-//	• Construction with no parameter: Creates an empty array.
-//	• Construction with an unsigned int n as a parameter: Creates an array of n elements
-//	initialized by default.
-//	Tip: Try to compile int * a = new int(); then display *a.
-//	• Construction by copy and assignment operator. In both cases, modifying either the
-//			original array or its copy after copying musn’t affect the other array.
-//	• You MUST use the operator new[] to allocate memory. Preventive allocation (allocating memory in advance) is forbidden. Your program must never access nonallocated memory.
-//	• Elements can be accessed through the subscript operator: [ ].
-//	• When accessing an element with the [ ] operator, if its index is out of bounds, an
-//	std::exception is thrown.
-//	• A member function size() that returns the number of elements in the array. This
-//			member function takes no parameter and musn’t modify the current instance.
-
+	Array(const Array<T>& cp);
+	Array& operator=(const Array<T>& cp);
+	unsigned int size();
+	T& operator[](unsigned int index);
+private:
+	T* m_data;
+	unsigned int m_size;
 };
+
+template<typename T>
+T &Array<T>::operator[](unsigned int index) {
+	std::string error = "Index is out of bounds\n";
+	if(index >= m_size) {
+		throw std::out_of_range(error);
+	}
+	return m_data[index];
+}
+
+template<typename T>
+unsigned int Array<T>::size() {
+	return m_size;
+}
+
+template<typename T>
+Array<T> &Array<T>::operator=(const Array<T> &cp) {
+	if (this == &cp) {
+		return *this;
+	}
+	m_size = cp.m_size;
+	delete [] m_data;
+	m_data = new T[m_size];
+	for (int x =0; x < m_size; x++) {
+		m_data[x] = cp.m_data[x];
+	}
+	return *this;
+}
+
+template<typename T>
+Array<T>::Array(const Array<T> &cp) {
+	m_size = cp.m_size;
+	m_data = new T[m_size];
+	for (int x =0; x < m_size; x++) {
+		m_data[x] = cp.m_data[x];
+	}
+}
+
+template<typename T>
+Array<T>::Array(unsigned int n) : m_data(new T[n]()), m_size(n) {
+}
+
+template<typename T>
+Array<T>::Array() : m_data(nullptr), m_size(0) {
+}
 
 #endif //CPP07_ARRAY_H
